@@ -10,7 +10,7 @@
 <script setup lang="ts">
 withDefaults(
     defineProps<{
-        isWidthFull: boolean;
+        isWidthFull?: boolean;
     }>(),
     {
         isWidthFull: false,

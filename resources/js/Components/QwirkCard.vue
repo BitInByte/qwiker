@@ -1,10 +1,11 @@
 <template>
     <!-- <p>{{ message }}</p> -->
+    <!-- TODO: Extract this links styles -->
     <p v-html="hashtagsReplace" />
     <p class="text-xs text-right">
-        <a
-            class="underline decoration-purple-300 transition duration-300 hover:decoration-wavy hover:underline-offset-1 cursor-pointer"
-            >{{ author }}</a
+        <!-- class="underline decoration-purple-300 transition duration-300 hover:decoration-wavy hover:underline-offset-1 cursor-pointer" -->
+        <AppLink
+            >{{ author }}</AppLink
         >
         on {{ time }}
     </p>

@@ -9,6 +9,7 @@ import GeneralLayout from "./Layouts/GeneralLayout.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import Card from "./Components/Card.vue";
 import Button from "./Components/Button.vue";
+import AppLink from "./Components/AppLink.vue";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -37,6 +38,7 @@ createInertiaApp({
             .component("Link", Link)
             .component("Card", Card)
             .component("Button", Button)
+            .component("AppLink", AppLink)
             .component("FontAwesomeIcon", FontAwesomeIcon)
             .mount(el);
     },

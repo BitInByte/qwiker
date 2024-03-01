@@ -4,7 +4,9 @@
         <Link href="/"><h3 style="font-family: 'Kanit', sans-serif" class="text-2xl">Qwiker</h3></Link>
         <nav class="flex gap-3">
             <Link href="/auth" class="hover:text-purple-300 hover:underline transition duration-300">Auth</Link>
+            <!-- <Link href="/auth" as="AppLink">Auth</Link> -->
             <Link href="/author" class="hover:text-purple-300 hover:underline transition duration-300">My Qwirks</Link>
+            <!-- <Link href="/author" as="AppLink">My Qwirks</Link> -->
             <Link class="hover:text-purple-300 hover:underline transition duration-300">Logout</Link>
         </nav>
     </header>
@@ -15,4 +17,8 @@
     </main>
     <footer></footer>
 </template>
+
+<script setup lang="ts">
+    import AppLink from '@/Components/AppLink.vue';
+</script>
 
