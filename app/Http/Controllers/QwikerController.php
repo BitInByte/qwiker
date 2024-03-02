@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hashtag;
 use App\Models\Qwiker;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class QwikerController extends Controller
 {
@@ -15,7 +16,7 @@ class QwikerController extends Controller
     public function index()
     {
         return Inertia::render('Qwiker', [
-            'qwikers'=> Qwiker::latest()->with('author')->get()
+            'qwikers' => Qwiker::latest()->with('author')->get(),
         ]);
     }
 
@@ -34,16 +35,47 @@ class QwikerController extends Controller
     {
         // ddd($request);
         request()->validate([
-            'qwikerMessage' => 'required|max:250|min:1'
+            'qwikerMessage' => 'required|max:250|min:1',
         ]);
 
+        $message = strip_tags(request('qwikerMessage'));
+
+        preg_match_all('/#(\\w+)/', $message, $hashtagsList);
+        // ddd($hashtagsList);
+        // ddd(request('qwikerMessage'), strip_tags(request('qwikerMessage')));
 
         $newQwiker = new Qwiker;
-        $newQwiker->message = request('qwikerMessage');
+        $newQwiker->message = $message;
         $newQwiker->slug = null;
-        $newQwiker->user_id = '9b77b33d-08de-4158-874e-71f7fc3cd85e';
+        $newQwiker->user_id = '9b780b57-08bc-4786-b3bf-77fb02b240c8';
+        $hashtagsAttach = [];
+
+        // if (isset($hashtagsList[1]) && sizeof($hashtagsList[1]) > 0) {
+        if (isset($hashtagsList[1]) && !empty($hashtagsList[1])) {
+            foreach ($hashtagsList[1] as $currentHashtag) {
+            // collect($hashtagsList[1])->each(function (string $currentHashtag) {
+                $hasHashtag = Hashtag::where('name', $currentHashtag)->first();
+
+                if(is_null($hasHashtag)) {
+                    $newHashtag = new Hashtag;
+                    $newHashtag->name = $currentHashtag;
+                    $newHashtag->save();
+                    $hashtagsAttach[] = $newHashtag->id;
+                } else {
+                    $hashtagsAttach[] = $hasHashtag->id;
+                }
+                // $hashtagsAttach[] = 'test';
+            // });
+            };
+        }
+
+        // ddd($hashtagsAttach);
         // ddd(Str::slug(request('qwikerMessage', '-')));
+        // $newQ
         $newQwiker->save();
+        $newQwiker->hashtags()->attach($hashtagsAttach);
+
+        // return back();
         return redirect('/');
         // ddd($newQwiker->id);
         // $qwiker->create([
