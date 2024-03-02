@@ -14,9 +14,12 @@ class QwikerAuthorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(string $author_username = null)
+    public function index(?string $author_username = null)
     {
         if (isset($author_username)) {
+            if ($author_username === request()->user()->username) {
+                return redirect('/author');
+            }
             $author = User::firstWhere('username', $author_username);
             if (is_null($author)) {
                 // throw new Exception('User not found!', HTTP);
