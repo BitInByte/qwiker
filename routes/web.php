@@ -18,7 +18,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::middleware('auth')->group(function() {
+Route::middleware('auth')->group(function () {
     Route::name('qwiker.')->group(function () {
         // Route::resource('/', QwikerController::class, ['as' => 'qwiker']);
         Route::resource('/', QwikerController::class);
@@ -29,11 +29,19 @@ Route::middleware('auth')->group(function() {
 //         'qwikers' => Qwiker::latest()->with('author')->get()
 //     ]);
 // });
-Route::get('/author', function() {
-    return Inertia::render('QwirkAuthor');
+Route::get('/author', function () {
+    return Inertia::render('QwikerAuthor', [
+        'qwikers' => Qwiker::latest()->where(
+            'user_id', request()->user()->id
+        )->with('author')->get(),
+        'author_id' => request()->user()->id,
+        'totalQwikes' => Qwiker::where(
+            'user_id', request()->user()->id
+        )->count()
+    ]);
 })->middleware('auth');
 // Change this to the auth.php file
-Route::get('/auth', function() {
+Route::get('/auth', function () {
     return Inertia::render('Auth/Auth');
 })->name('auth');
 // Route::get('/', function () {

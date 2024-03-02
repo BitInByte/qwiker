@@ -150,9 +150,12 @@
             <!-- </div> -->
         </form>
         <div class="mb-4">
-            <Button isWidthFull @click="toggleAuthHandler" type="button">{{
-                isLogin ? "Register" : "Login"
-            }}</Button>
+            <Button
+                isWidthFull
+                @click="toggleAuthHandler"
+                type="button"
+                >{{ isLogin ? "Register" : "Login" }}</Button
+            >
         </div>
     </Card>
 </template>
@@ -164,12 +167,18 @@ const props = defineProps<{
     errors: any;
 }>();
 // const page = usePage();
+// page.props.errors
 // const pageErrors = computed(() => page.props.errors);
 // console.log(page.props.errors);
 
 const isLogin = ref(false);
 
-let registerFields = {
+let registerFields: {
+    name: string;
+    password_confirmation: string;
+    username?: string;
+    password?: string;
+} = {
     name: "",
     password_confirmation: "",
 };
@@ -186,7 +195,7 @@ const submit = () => {
     const url = isLogin.value ? "login" : "register";
     form.post(route(url), {
         onFinish: () => {
-            isLogin
+            isLogin.value
                 ? form.reset("password")
                 : form.reset("password", "password_confirmation");
         },
@@ -195,5 +204,6 @@ const submit = () => {
 
 const toggleAuthHandler = () => {
     isLogin.value = !isLogin.value;
+    form.clearErrors();
 };
 </script>
