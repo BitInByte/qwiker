@@ -69,10 +69,11 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('qwiker.store'), {
+    form.submit('post',route('qwiker.store'), {
         onFinish: () => {
             form.reset('qwiker-message')
-        }
+        },
+        preserveState: false
     })
 }
 </script>
