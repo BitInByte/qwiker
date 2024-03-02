@@ -18,9 +18,11 @@ use Inertia\Inertia;
 |
 */
 
-Route::name('qwiker.')->group(function () {
-    // Route::resource('/', QwikerController::class, ['as' => 'qwiker']);
-    Route::resource('/', QwikerController::class);
+Route::middleware('auth')->group(function() {
+    Route::name('qwiker.')->group(function () {
+        // Route::resource('/', QwikerController::class, ['as' => 'qwiker']);
+        Route::resource('/', QwikerController::class);
+    });
 });
 // Route::get('/', function() {
 //     return Inertia::render('Qwirk', [
@@ -29,11 +31,11 @@ Route::name('qwiker.')->group(function () {
 // });
 Route::get('/author', function() {
     return Inertia::render('QwirkAuthor');
-});
+})->middleware('auth');
 // Change this to the auth.php file
 Route::get('/auth', function() {
     return Inertia::render('Auth/Auth');
-});
+})->name('auth');
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
 //         'canLogin' => Route::has('login'),

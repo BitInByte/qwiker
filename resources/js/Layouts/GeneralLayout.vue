@@ -3,11 +3,11 @@
         <!-- <h3 :style="{fontFamily: '\'Kanit\', sans-serif'}" class="text-2xl">Qwiker</h3> -->
         <Link href="/"><h3 style="font-family: 'Kanit', sans-serif" class="text-2xl">Qwiker</h3></Link>
         <nav class="flex gap-3">
-            <Link href="/auth" class="hover:text-purple-300 hover:underline transition duration-300">Auth</Link>
+            <Link href="/auth" class="hover:text-purple-300 hover:underline transition duration-300" v-if="!$page.props.auth.user">Auth</Link>
             <!-- <Link href="/auth" as="AppLink">Auth</Link> -->
-            <Link href="/author" class="hover:text-purple-300 hover:underline transition duration-300">My Qwirks</Link>
+            <Link href="/author" class="hover:text-purple-300 hover:underline transition duration-300" v-if="$page.props.auth.user">My Qwirks</Link>
             <!-- <Link href="/author" as="AppLink">My Qwirks</Link> -->
-            <Link class="hover:text-purple-300 hover:underline transition duration-300">Logout</Link>
+            <Link :href="route('logout')" method="post" class="hover:text-purple-300 hover:underline transition duration-300" v-if="$page.props.auth.user">Logout</Link>
         </nav>
     </header>
     <main class="w-full py-6 lg:px-0 lg:max-w-3xl mx-auto pt-4">

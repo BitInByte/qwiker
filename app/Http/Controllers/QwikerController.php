@@ -47,7 +47,8 @@ class QwikerController extends Controller
         $newQwiker = new Qwiker;
         $newQwiker->message = $message;
         $newQwiker->slug = null;
-        $newQwiker->user_id = '9b780b57-08bc-4786-b3bf-77fb02b240c8';
+        // $newQwiker->user_id = '9b780b57-08bc-4786-b3bf-77fb02b240c8';
+        $newQwiker->user_id = request()->user()->id;
         $hashtagsAttach = [];
 
         // if (isset($hashtagsList[1]) && sizeof($hashtagsList[1]) > 0) {
