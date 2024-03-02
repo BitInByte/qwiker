@@ -6,7 +6,8 @@
         <Card v-for="item in qwikers">
             <QwikeCard
                 :message="item.message"
-                :author="item.author.username"
+                :author="item.author.name"
+                :username="item.author.username"
                 :time="item.created_at"
             />
         </Card>
@@ -24,6 +25,7 @@ const props = defineProps<{
         created_at: string;
         author: {
             username: string;
+            name: string;
         };
     }[];
 }>();

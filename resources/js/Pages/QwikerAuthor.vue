@@ -3,7 +3,7 @@
         <Card>
             <div class="w-full flex justify-center items-center gap-2">
                 <h1 class="text-center text-2xl">
-                    {{ $page.props.auth.user.name }}
+                    {{ author_name || $page.props.auth.user.name }}
                 </h1>
                 <button
                     v-if="
@@ -12,11 +12,12 @@
                     "
                     class="leading-none transition duration-300 hover:text-purple-300"
                 >
-                    <FontAwesomeIcon :icon="faCirclePlus" />
+                    <FontAwesomeIcon :icon="isConnected ? faCircleCheck : faCirclePlus" />
                 </button>
             </div>
             <p class="text-xs text-right">
-                {{ totalQwikes }} qwiks · 30 followers · 50 following
+                {{ totalQwikes }} qwikes · {{ totalFollowers }} followers ·
+                {{ totalFollowing }} following
             </p>
         </Card>
         <Card v-for="item in qwikers">
@@ -24,6 +25,7 @@
                 :message="item.message"
                 :author="item.author.username"
                 :time="item.created_at"
+                :username="item.author.username"
             />
         </Card>
     </RowElementsSectionLayout>
@@ -32,7 +34,7 @@
 <script setup lang="ts">
 import RowElementsSectionLayout from "../Layouts/RowElementsSectionLayout.vue";
 import QwikerCard from "../Components/QwikeCard.vue";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faCirclePlus, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 const props = defineProps<{
     qwikers: {
         message: string;
@@ -44,6 +46,10 @@ const props = defineProps<{
     }[];
     author_id: string;
     totalQwikes: number;
+    totalFollowers: number;
+    totalFollowing: number;
+    author_name?: string;
+    isConnected?: boolean;
 }>();
 // console.log(props.user_id)
 // const DATA = [
