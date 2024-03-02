@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QwikerController;
+use App\Models\Qwiker;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,9 +18,12 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function() {
-    return Inertia::render('Qwirk');
-});
+Route::resource('/', QwikerController::class);
+// Route::get('/', function() {
+//     return Inertia::render('Qwirk', [
+//         'qwikers' => Qwiker::latest()->with('author')->get()
+//     ]);
+// });
 Route::get('/author', function() {
     return Inertia::render('QwirkAuthor');
 });

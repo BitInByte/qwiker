@@ -10,7 +10,7 @@
             <Link class="hover:text-purple-300 hover:underline transition duration-300">Logout</Link>
         </nav>
     </header>
-    <main class="w-full px-6 lg:px-0 lg:max-w-3xl mx-auto pt-4">
+    <main class="w-full py-6 lg:px-0 lg:max-w-3xl mx-auto pt-4">
         <!-- <section class="mt-4"> -->
             <slot></slot>
         <!-- </section> -->
