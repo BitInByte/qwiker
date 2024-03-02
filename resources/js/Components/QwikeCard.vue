@@ -8,11 +8,12 @@
             :href="`/author/${username}`"
             >{{ author }}</AppLink
         >
-        on {{ time }}
+        - {{ moment(time).fromNow() }}
     </p>
 </template>
 
 <script setup lang="ts">
+import moment from 'moment';
 const props = defineProps<{
     message: string;
     author: string;
