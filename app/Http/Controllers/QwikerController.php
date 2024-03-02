@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Qwiker;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class QwikerController extends Controller
 {
@@ -29,9 +30,26 @@ class QwikerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Qwiker $qwiker)
     {
-        //
+        // ddd($request);
+        request()->validate([
+            'qwikerMessage' => 'required|max:250|min:1'
+        ]);
+
+
+        $newQwiker = new Qwiker;
+        $newQwiker->message = request('qwikerMessage');
+        $newQwiker->slug = null;
+        $newQwiker->user_id = '9b77b33d-08de-4158-874e-71f7fc3cd85e';
+        // ddd(Str::slug(request('qwikerMessage', '-')));
+        $newQwiker->save();
+        return redirect('/');
+        // ddd($newQwiker->id);
+        // $qwiker->create([
+        //     'message' => request('qwikerMessage'),
+        //     'slug' => 'example-slug'
+        // ]);
     }
 
     /**

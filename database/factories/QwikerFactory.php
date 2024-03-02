@@ -20,6 +20,7 @@ class QwikerFactory extends Factory
         return [
             'message' => fake()->text(250),
             'user_id' => User::factory(),
+            'slug' => null,
         ];
     }
 }

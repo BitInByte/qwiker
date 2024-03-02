@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('qwikers', function (Blueprint $table) {
-            $table->id();
-            // $table->uuid('id')->primary();
+            // $table->id();
+            $table->uuid('id')->primary();
             $table->string('message', 250);
+            $table->string('slug')->unique();
             $table->integer('likes')->default(0);
             $table->integer('shares')->default(0);
             $table->timestamps();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
         });
     }
 

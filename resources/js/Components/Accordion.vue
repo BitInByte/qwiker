@@ -22,23 +22,23 @@
             }"
         >
             <div class="overflow-hidden py-2">
-                <form>
+                <form @submit.prevent="submit">
                     <textarea
-                        name="qwirk-message"
-                        id="qwirk-message"
+                        name="qwiker-message"
+                        id="qwiker-message"
                         class="w-full resize-none rounded-lg bg-zinc-700 text-white h-20"
                         :class="{
-                            'border-red-500': qwirkMessage.length >= 250,
+                            'border-red-500': form.qwikerMessage.length >= 250,
                         }"
                         maxlength="250"
-                        v-model="qwirkMessage"
+                        v-model="form.qwikerMessage"
                     >
                     </textarea>
                     <p
                         class="text-white text-right"
-                        :class="{ 'text-red-500': qwirkMessage.length >= 250 }"
+                        :class="{ 'text-red-500': form.qwikerMessage.length >= 250 }"
                     >
-                        {{ qwirkMessage.length }}/250
+                        {{ form.qwikerMessage.length }}/250
                     </p>
                     <div class="w-full flex justify-end pt-2">
                         <Button>Submit</Button>
@@ -51,6 +51,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useForm } from '@inertiajs/vue3';
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 const accordionOpen = ref(false);
 const accordionAnswerRef = ref<HTMLDivElement | null>(null);
@@ -58,8 +59,20 @@ const accordionAnswerRef = ref<HTMLDivElement | null>(null);
 //     default: "",
 //     required: true,
 // });
-const qwirkMessage = ref("");
+// const qwirkMessage = ref("");
 function toggleAccordionHandler() {
     accordionOpen.value = !accordionOpen.value;
+}
+
+const form = useForm({
+    qwikerMessage: '',
+});
+
+const submit = () => {
+    form.post(route('qwiker.store'), {
+        onFinish: () => {
+            form.reset('qwiker-message')
+        }
+    })
 }
 </script>

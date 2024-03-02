@@ -18,7 +18,10 @@ use Inertia\Inertia;
 |
 */
 
-Route::resource('/', QwikerController::class);
+Route::name('qwiker.')->group(function () {
+    // Route::resource('/', QwikerController::class, ['as' => 'qwiker']);
+    Route::resource('/', QwikerController::class);
+});
 // Route::get('/', function() {
 //     return Inertia::render('Qwirk', [
 //         'qwikers' => Qwiker::latest()->with('author')->get()
