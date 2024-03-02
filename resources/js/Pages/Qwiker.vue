@@ -4,7 +4,7 @@
             <Accordion />
         </Card>
         <Card v-for="item in qwikers">
-            <QwirkCard
+            <QwikeCard
                 :message="item.message"
                 :author="item.author.username"
                 :time="item.created_at"
@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import Accordion from "@/Components/Accordion.vue";
 import RowElementsSectionLayout from "@/Layouts/RowElementsSectionLayout.vue";
-import QwirkCard from "@/Components/QwirkCard.vue";
+import QwikeCard from "@/Components/QwikeCard.vue";
 
 const props = defineProps<{
     qwikers: {
