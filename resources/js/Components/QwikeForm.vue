@@ -18,6 +18,11 @@
         >
             {{ form.qwikerMessage.length }}/250
         </p>
+
+        <p v-show="form.errors.qwikerMessage" class="text-sm text-red-500">
+            {{ form.errors.qwikerMessage }}
+        </p>
+
         <div class="w-full flex justify-end pt-2">
             <Button>Submit</Button>
         </div>
@@ -25,17 +30,18 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { useForm } from "@inertiajs/vue3";
 const form = useForm({
     qwikerMessage: "",
 });
 
 const submit = () => {
     form.submit("post", route("qwiker.store"), {
-        onFinish: () => {
+        // onFinish: () => {
+        onSuccess: () => {
             form.reset("qwiker-message");
         },
-        preserveState: false,
+        preserveState: (page) => Object.keys(page.props.errors).length !== 0,
     });
 };
 </script>
