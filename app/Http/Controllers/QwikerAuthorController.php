@@ -40,10 +40,10 @@ class QwikerAuthorController extends Controller
                 'user_id', $author->id
             )->count(),
             'author_name' => $author->name,
-            'totalFollowers' => UserFollower::where(
+            'totalFollowing' => UserFollower::where(
                 'user_id', $author->id
             )->count(),
-            'totalFollowing' => UserFollower::where(
+            'totalFollowers' => UserFollower::where(
                 'follower_id', $author->id
             )->count(),
             'isConnected' => UserFollower::where(

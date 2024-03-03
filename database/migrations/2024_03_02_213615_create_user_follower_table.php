@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_followers', function (Blueprint $table) {
+        Schema::create('user_follower', function (Blueprint $table) {
             $table->uuid('user_id');
             $table->uuid('follower_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_followers');
+        Schema::dropIfExists('user_follower');
     }
 };

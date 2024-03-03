@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\HashtagController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QwikerAuthorController;
 use App\Http\Controllers\QwikerController;
 use App\Models\Qwiker;
 use App\Models\User;
-use App\Models\UserFollower;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/author/{author_username}', [QwikerAuthorController::class, 'connect']);
     // Route::get('/author', [QwikerAuthorController::class, 'index'])->middleware('auth');
     Route::get('/author', [QwikerAuthorController::class, 'index']);
+    Route::get('/hashtag/{hashtag}', [HashtagController::class, 'index']);
 });
 // Route::get('/', function() {
 //     return Inertia::render('Qwirk', [

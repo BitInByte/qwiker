@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Hashtag;
+use App\Models\Qwiker;
+use App\Models\HashtagQwiker;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+class HashtagController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(string $hashtag_name)
+    {
+        $hashtag = Hashtag::where('name', $hashtag_name)->with('qwikers')->first();
+        // ddd($hashtag);
+        if(!isset($hashtag)) {
+            throw new NotFoundHttpException('The hashtag doesn\'t exst');
+        }
+
+        // $hashtags = HashtagQwiker::where('hashtag_id', $hashtag->id)->get();
+        // ddd($hashtag->qwikers()->with('author')->get());
+
+
+        return Inertia::render('QwikerHashtag', [
+            'hashtagQwikers' => $hashtag->qwikers()->with('author')->get(),
+            'hashtagName' => $hashtag_name,
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Hashtag $hashtag)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Hashtag $hashtag)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Hashtag $hashtag)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Hashtag $hashtag)
+    {
+        //
+    }
+}

@@ -21,9 +21,10 @@ const props = defineProps<{
     time: string;
 }>();
 
+// This should be done with Link to not force reload
 const hashtagsReplace = props.message.replace(
     /#(\S*)/g,
-    '<a href="/" class="underline decoration-purple-300 transition duration-300 hover:decoration-wavy">#$1</a>',
+    `<a href="/hashtag/$1" class="underline decoration-purple-300 transition duration-300 hover:decoration-wavy">#$1</a>`,
 );
 
 console.log(hashtagsReplace);
