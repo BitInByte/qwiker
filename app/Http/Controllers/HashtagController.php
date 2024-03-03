@@ -27,7 +27,7 @@ class HashtagController extends Controller
 
 
         return Inertia::render('QwikerHashtag', [
-            'hashtagQwikers' => $hashtag->qwikers()->with('author')->get(),
+            'qwikers' => $hashtag->qwikers()->with('author')->paginate(5),
             'hashtagName' => $hashtag_name,
         ]);
     }

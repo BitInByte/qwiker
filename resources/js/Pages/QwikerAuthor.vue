@@ -13,7 +13,9 @@
                     class="leading-none transition duration-300 hover:text-purple-300"
                     @click="connectUser"
                 >
-                    <FontAwesomeIcon :icon="isConnected ? faCircleCheck : faCirclePlus" />
+                    <FontAwesomeIcon
+                        :icon="isConnected ? faCircleCheck : faCirclePlus"
+                    />
                 </button>
             </div>
             <p class="text-xs text-right">
@@ -21,31 +23,36 @@
                 {{ totalFollowing }} following
             </p>
         </Card>
-        <Card v-for="item in qwikers">
-            <QwikerCard
-                :message="item.message"
-                :author="item.author.username"
-                :time="item.created_at"
-                :username="item.author.username"
-            />
-        </Card>
+        <QwikeContent :qwikers="qwikers" />
+        <!-- <Card v-for="item in qwikers"> -->
+        <!--     <QwikerCard -->
+        <!--         :message="item.message" -->
+        <!--         :author="item.author.username" -->
+        <!--         :time="item.created_at" -->
+        <!--         :username="item.author.username" -->
+        <!--     /> -->
+        <!-- </Card> -->
     </RowElementsSectionLayout>
 </template>
 
 <script setup lang="ts">
 import RowElementsSectionLayout from "../Layouts/RowElementsSectionLayout.vue";
-import QwikerCard from "../Components/QwikeCard.vue";
+// import QwikerCard from "../Components/QwikeCard.vue";
+import QwikeContent from "@/Components/QwikeContent.vue";
 import { faCirclePlus, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { router } from "@inertiajs/vue3";
 const props = defineProps<{
     qwikers: {
-        message: string;
-        created_at: string;
-        author: {
-            username: string;
-            id: string;
-        };
-    }[];
+        data: {
+            message: string;
+            created_at: string;
+            author: {
+                username: string;
+                name: string;
+            };
+        }[];
+        next_page_url: string;
+    };
     author_id: string;
     totalQwikes: number;
     totalFollowers: number;
@@ -56,7 +63,7 @@ const props = defineProps<{
 }>();
 const connectUser = () => {
     router.post(`/author/${props.author_username}`);
-}
+};
 // console.log(props.user_id)
 // const DATA = [
 //     {

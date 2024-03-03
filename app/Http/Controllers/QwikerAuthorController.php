@@ -34,7 +34,7 @@ class QwikerAuthorController extends Controller
         return Inertia::render('QwikerAuthor', [
             'qwikers' => Qwiker::latest()->where(
                 'user_id', $author->id
-            )->with('author')->get(),
+            )->with('author')->paginate(5),
             'author_id' => $author->id,
             'totalQwikes' => Qwiker::where(
                 'user_id', $author->id

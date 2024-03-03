@@ -1,8 +1,8 @@
 import { router, usePage } from "@inertiajs/vue3";
-import { computed, ref } from "vue";
+import { Ref, computed, ref } from "vue";
 import { useIntersect } from "./useIntersect";
 
-export function useInfiniteScroll(propName: string, landmark = null) {
+export function useInfiniteScroll(propName: string, landmark: Ref | null = null) {
     const value = () => usePage().props[propName] as any;
     const items = ref(value().data);
 
