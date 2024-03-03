@@ -30,7 +30,6 @@ class QwikerAuthorController extends Controller
             $author = request()->user();
         }
 
-        // ddd($author);
         return Inertia::render('QwikerAuthor', [
             'qwikers' => Qwiker::latest()->where(
                 'user_id', $author->id
@@ -106,17 +105,9 @@ class QwikerAuthorController extends Controller
         $connection = $userFollowerRepository->getRecordQuery($followerAuthor->id)->count();
 
         $isConnected = $connection > 0;
-        // ddd($connection[0]);
         if ($isConnected) {
-            // if (count($connection) > 0) {
-            // If exist, remove it
-            // ddd('connected');
-            // $connection[0]->delete();
             $userFollowerRepository->getRecordQuery($followerAuthor->id)->delete();
         } else {
-            // ddd($connection);
-            // If doesn't exist, add it
-            // ddd('not connected');
             $newConnection = new UserFollower;
             $newConnection->user_id = request()->user()->id;
             $newConnection->follower_id = $followerAuthor->id;

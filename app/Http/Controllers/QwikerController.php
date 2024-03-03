@@ -34,7 +34,6 @@ class QwikerController extends Controller
      */
     public function store(Request $request, Qwiker $qwiker)
     {
-        // ddd($request);
         request()->validate([
             'qwikerMessage' => 'required|max:250|min:1',
         ]);
@@ -42,20 +41,15 @@ class QwikerController extends Controller
         $message = strip_tags(request('qwikerMessage'));
 
         preg_match_all('/#(\\w+)/', $message, $hashtagsList);
-        // ddd($hashtagsList);
-        // ddd(request('qwikerMessage'), strip_tags(request('qwikerMessage')));
 
         $newQwiker = new Qwiker;
         $newQwiker->message = $message;
         $newQwiker->slug = null;
-        // $newQwiker->user_id = '9b780b57-08bc-4786-b3bf-77fb02b240c8';
         $newQwiker->user_id = request()->user()->id;
         $hashtagsAttach = [];
 
-        // if (isset($hashtagsList[1]) && sizeof($hashtagsList[1]) > 0) {
         if (isset($hashtagsList[1]) && !empty($hashtagsList[1])) {
             foreach ($hashtagsList[1] as $currentHashtag) {
-            // collect($hashtagsList[1])->each(function (string $currentHashtag) {
                 $hasHashtag = Hashtag::where('name', $currentHashtag)->first();
 
                 if(is_null($hasHashtag)) {
@@ -66,24 +60,14 @@ class QwikerController extends Controller
                 } else {
                     $hashtagsAttach[] = $hasHashtag->id;
                 }
-                // $hashtagsAttach[] = 'test';
-            // });
             };
         }
 
-        // ddd($hashtagsAttach);
-        // ddd(Str::slug(request('qwikerMessage', '-')));
-        // $newQ
         $newQwiker->save();
         $newQwiker->hashtags()->attach($hashtagsAttach);
 
         // return back();
         return redirect('/');
-        // ddd($newQwiker->id);
-        // $qwiker->create([
-        //     'message' => request('qwikerMessage'),
-        //     'slug' => 'example-slug'
-        // ]);
     }
 
     /**

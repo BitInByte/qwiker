@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hashtag;
-use App\Models\Qwiker;
-use App\Models\HashtagQwiker;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -17,14 +15,9 @@ class HashtagController extends Controller
     public function index(string $hashtag_name)
     {
         $hashtag = Hashtag::where('name', $hashtag_name)->with('qwikers')->first();
-        // ddd($hashtag);
         if(!isset($hashtag)) {
             throw new NotFoundHttpException('The hashtag doesn\'t exst');
         }
-
-        // $hashtags = HashtagQwiker::where('hashtag_id', $hashtag->id)->get();
-        // ddd($hashtag->qwikers()->with('author')->get());
-
 
         return Inertia::render('QwikerHashtag', [
             'qwikers' => $hashtag->qwikers()->with('author')->paginate(5),

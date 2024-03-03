@@ -1,8 +1,12 @@
 import { router, usePage } from "@inertiajs/vue3";
 import { Ref, computed, ref } from "vue";
 import { useIntersect } from "./useIntersect";
+import {toRaw} from 'vue';
 
-export function useInfiniteScroll(propName: string, landmark: Ref | null = null) {
+export function useInfiniteScroll(
+    propName: string,
+    landmark: Ref | null = null,
+) {
     const value = () => usePage().props[propName] as any;
     const items = ref(value().data);
 
@@ -32,9 +36,9 @@ export function useInfiniteScroll(propName: string, landmark: Ref | null = null)
         );
     };
 
-    if(landmark !== null) {
+    if (landmark !== null) {
         useIntersect(landmark, loadMoreItems, {
-            rootMargin: "0px 0px 150px 0px",
+            // rootMargin: "0px 0px 150px 0px",
         });
     }
     return {
