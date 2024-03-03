@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Qwiker;
 use App\Models\User;
 use App\Models\UserFollower;
+use App\Repositories\UserFollowerRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -50,6 +51,7 @@ class QwikerAuthorController extends Controller
             )->where(
                 'user_id', request()->user()->id,
             )->count() > 0,
+            'author_username' => $author->username,
         ]);
     }
 
@@ -91,6 +93,35 @@ class QwikerAuthorController extends Controller
     public function update(Request $request, Qwiker $qwiker)
     {
         //
+    }
+
+    public function connect(string $author_username, UserFollowerRepository $userFollowerRepository)
+    {
+        // Check if exist on database already
+        $followerAuthor = User::firstWhere('username', $author_username);
+        if (! isset($followerAuthor)) {
+            throw new NotFoundHttpException('User not found!');
+        }
+
+        $connection = $userFollowerRepository->getRecordQuery($followerAuthor->id)->count();
+
+        $isConnected = $connection > 0;
+        // ddd($connection[0]);
+        if ($isConnected) {
+            // if (count($connection) > 0) {
+            // If exist, remove it
+            // ddd('connected');
+            // $connection[0]->delete();
+            $userFollowerRepository->getRecordQuery($followerAuthor->id)->delete();
+        } else {
+            // ddd($connection);
+            // If doesn't exist, add it
+            // ddd('not connected');
+            $newConnection = new UserFollower;
+            $newConnection->user_id = request()->user()->id;
+            $newConnection->follower_id = $followerAuthor->id;
+            $newConnection->save(['timestamps' => false]);
+        }
     }
 
     /**

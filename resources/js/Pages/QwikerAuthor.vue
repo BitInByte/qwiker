@@ -11,6 +11,7 @@
                         author_id
                     "
                     class="leading-none transition duration-300 hover:text-purple-300"
+                    @click="connectUser"
                 >
                     <FontAwesomeIcon :icon="isConnected ? faCircleCheck : faCirclePlus" />
                 </button>
@@ -35,6 +36,7 @@
 import RowElementsSectionLayout from "../Layouts/RowElementsSectionLayout.vue";
 import QwikerCard from "../Components/QwikeCard.vue";
 import { faCirclePlus, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { router } from "@inertiajs/vue3";
 const props = defineProps<{
     qwikers: {
         message: string;
@@ -50,7 +52,11 @@ const props = defineProps<{
     totalFollowing: number;
     author_name?: string;
     isConnected?: boolean;
+    author_username: string;
 }>();
+const connectUser = () => {
+    router.post(`/author/${props.author_username}`);
+}
 // console.log(props.user_id)
 // const DATA = [
 //     {

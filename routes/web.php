@@ -27,13 +27,16 @@ Route::middleware('auth')->group(function () {
         // Route::resource('/', QwikerController::class, ['as' => 'qwiker']);
         Route::resource('/', QwikerController::class);
     });
+    Route::get('/author/{author_username}', [QwikerAuthorController::class, 'index']);
+    Route::post('/author/{author_username}', [QwikerAuthorController::class, 'connect']);
+    // Route::get('/author', [QwikerAuthorController::class, 'index'])->middleware('auth');
+    Route::get('/author', [QwikerAuthorController::class, 'index']);
 });
 // Route::get('/', function() {
 //     return Inertia::render('Qwirk', [
 //         'qwikers' => Qwiker::latest()->with('author')->get()
 //     ]);
 // });
-Route::get('/author/{author_username}', [QwikerAuthorController::class, 'index'])->middleware('auth');
 // Route::get('/author/{author_username}', function (string $author_username) {
 //     $author = User::firstWhere('username', $author_username);
 //     if (is_null($author)) {
@@ -64,7 +67,6 @@ Route::get('/author/{author_username}', [QwikerAuthorController::class, 'index']
 //         )->count() > 0,
 //     ]);
 // });
-Route::get('/author', [QwikerAuthorController::class, 'index'])->middleware('auth');
 // Route::get('/author', function () {
 //     return Inertia::render('QwikerAuthor', [
 //         'qwikers' => Qwiker::latest()->where(
