@@ -13,6 +13,9 @@
         </Card>
         <!-- <Link @click="loadMoreItems">Load more</Link> -->
         <div ref="landmark"></div>
+        <p v-if="!canLoadMoreItems" class="text-sm text-white text-center">
+            You're all catch up with all of the new content
+        </p>
     </RowElementsSectionLayout>
 </template>
 
@@ -24,6 +27,8 @@ import { ref } from "vue";
 import { watch } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 import { onMounted } from "vue";
+import { useInfiniteScroll } from "@/Composables/useInfiniteScroll";
+import { useIntersect } from "@/Composables/useIntersect";
 
 const props = defineProps<{
     qwikers: {
@@ -39,48 +44,9 @@ const props = defineProps<{
     };
 }>();
 console.log(props.qwikers);
-const items = ref(props.qwikers.data);
-
-// watch(() => props.qwikers, (qwikers) => {
-//     items.value = [...items.value, ...qwikers.data]
-// });
-
-const initialUrl = usePage().url;
-const loadMoreItems = () => {
-    if (!props.qwikers.next_page_url) {
-        return;
-    }
-    router.get(
-        props.qwikers.next_page_url,
-        {},
-        {
-            preserveState: true,
-            preserveScroll: true,
-            onSuccess: () => {
-                window.history.replaceState({}, "", initialUrl);
-                items.value = [...items.value, ...props.qwikers.data];
-            },
-        },
-    );
-};
-
-const observer = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                loadMoreItems();
-            }
-        });
-    },
-    {
-        rootMargin: "0px 0px 150px 0px",
-    },
-);
-
 const landmark = ref(null);
-onMounted(() => {
-    if (landmark.value) {
-        observer.observe(landmark.value);
-    }
-});
+const { items, loadMoreItems, canLoadMoreItems } = useInfiniteScroll(
+    "qwikers",
+    landmark,
+);
 </script>
