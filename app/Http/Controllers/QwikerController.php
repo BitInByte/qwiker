@@ -16,7 +16,8 @@ class QwikerController extends Controller
     public function index()
     {
         return Inertia::render('Qwiker', [
-            'qwikers' => Qwiker::latest()->with('author')->get(),
+            // 'qwikers' => Qwiker::latest()->with('author')->get(),
+            'qwikers' => Qwiker::latest()->with('author')->paginate(5),
         ]);
     }
 

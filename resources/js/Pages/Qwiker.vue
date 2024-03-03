@@ -3,7 +3,7 @@
         <Card>
             <Accordion />
         </Card>
-        <Card v-for="item in qwikers">
+        <Card v-for="item in items">
             <QwikeCard
                 :message="item.message"
                 :author="item.author.name"
@@ -11,6 +11,8 @@
                 :time="item.created_at"
             />
         </Card>
+        <!-- <Link @click="loadMoreItems">Load more</Link> -->
+        <div ref="landmark"></div>
     </RowElementsSectionLayout>
 </template>
 
@@ -18,35 +20,67 @@
 import Accordion from "@/Components/Accordion.vue";
 import RowElementsSectionLayout from "@/Layouts/RowElementsSectionLayout.vue";
 import QwikeCard from "@/Components/QwikeCard.vue";
+import { ref } from "vue";
+import { watch } from "vue";
+import { router, usePage } from "@inertiajs/vue3";
+import { onMounted } from "vue";
 
 const props = defineProps<{
     qwikers: {
-        message: string;
-        created_at: string;
-        author: {
-            username: string;
-            name: string;
-        };
-    }[];
+        data: {
+            message: string;
+            created_at: string;
+            author: {
+                username: string;
+                name: string;
+            };
+        }[];
+        next_page_url: string;
+    };
 }>();
-// console.log(props.qwikers);
+console.log(props.qwikers);
+const items = ref(props.qwikers.data);
 
-// const DATA = [
-//     {
-//         message:
-//             "First message with an #hashtaghere too good and now #anotherhashhere",
-//         author: "John Cena",
-//         time: "Today",
-//     },
-//     {
-//         message: "Second message",
-//         author: "Undertaker",
-//         time: "Today",
-//     },
-//     {
-//         message: "Third message",
-//         author: "LA Knight",
-//         time: "Today",
-//     },
-// ];
+// watch(() => props.qwikers, (qwikers) => {
+//     items.value = [...items.value, ...qwikers.data]
+// });
+
+const initialUrl = usePage().url;
+const loadMoreItems = () => {
+    if (!props.qwikers.next_page_url) {
+        return;
+    }
+    router.get(
+        props.qwikers.next_page_url,
+        {},
+        {
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                window.history.replaceState({}, "", initialUrl);
+                items.value = [...items.value, ...props.qwikers.data];
+            },
+        },
+    );
+};
+
+const observer = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                loadMoreItems();
+            }
+        });
+    },
+    {
+        rootMargin: "0px 0px 150px 0px",
+    },
+);
+
+const landmark = ref(null);
+onMounted(() => {
+    if (landmark.value) {
+        observer.observe(landmark.value);
+    }
+});
 </script>
